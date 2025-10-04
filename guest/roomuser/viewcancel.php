@@ -1,0 +1,101 @@
+<?php
+session_start();
+if(isset($_SESSION['email']))
+{ 
+include("headerlogout.php");
+}
+else
+{
+	include("header.php");
+}?>
+<?php require('../config/autoload.php'); 
+include("dbcon.php");
+?>
+
+<?php
+$dao=new DataAccess();
+   $name=$_SESSION['email'] ;
+
+   if(isset($_POST["home"]))
+{
+     header('location:header.php');
+}
+if(!isset($_SESSION['email']))
+   {
+	   header('location:login.php');
+	   }
+	   else
+	   { 
+	  
+	   
+	    ?>
+       
+       
+       
+       
+ <div class="container_gray_bg" id="home_feat_1">
+    <div class="container">
+    	<div class="row">
+            <div class="col-md-12">
+            
+            <H1><center> CANCEL DETAILS </center> </H1>
+                <table  border="1" class="table" style="margin-top:100px;">
+                    <tr>
+                        
+                        <th>Sl No</th>
+                        <th>ROOM NO</th>
+                      
+                        <th>FROM DATE</th>
+                        <th>TO DATE</th>
+                    
+                    </tr>
+<?php
+    
+    $actions=array(
+    
+    
+    
+    );
+
+    $config=array(
+        'srno'=>true,
+        'hiddenfields'=>array('bookingid')
+        
+        
+    );
+
+   $condition="userid='".$name."' and status=3";
+   
+   $join=array(
+       
+    );  
+	$fields=array('bookingid','room_no','datefrom','todate');
+
+    $users=$dao->selectAsTable($fields,'cart as c',$condition,$join,$actions,$config);
+    
+    echo $users;
+                                     
+    ?>
+
+             
+                </table>
+            </div>    
+
+
+          
+<form action="" method="POST" enctype="multipart/form-data">
+
+<button class="btn btn-success" type="submit"  name="home" ><a href="displaycategory.php">Home</button>
+<button class="btn btn-success" type="submit" style="margin-right: 2px;"  name="book" ><a href="datechoice.php">New Booking</button>
+
+</form>
+
+
+            
+            
+            
+        </div><!-- End row -->
+    </div><!-- End container -->
+    </div><!-- End container_gray_bg -->
+
+<?php } ?>
